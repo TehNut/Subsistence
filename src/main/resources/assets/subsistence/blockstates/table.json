@@ -1,0 +1,16 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "subsistence:table_basic.obj",
+    "custom": { "flip-v": true },
+    "transform" : "forge:default-block"
+  },
+  "variants": {
+    "type": {
+      "basic":  { },
+      "stone":  { "model": "subsistence:table_smashing_stone.obj" },
+      "cobble": { "model": "subsistence:table_smashing_cobble.obj" },
+      "nether": { "model": "subsistence:table_smashing_nether.obj" }
+    }
+  }
+}

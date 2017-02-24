@@ -31,11 +31,18 @@ archivesBaseName = mod_name
 version = "${mc_version}-${mod_version}-${build_number}"
 
 repositories {
-
+    maven { url "http://tehnut.info/maven" }
+    maven { url "http://dvs1.progwml6.com/files/maven" }
 }
 
 dependencies {
+    // API for development
+    deobfCompile "mcp.mobius.waila:Hwyla:${waila_version}_${mc_version}:api"
+    deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
 
+    // Full at runtime
+    runtime "mcp.mobius.waila:Hwyla:${waila_version}_${mc_version}"
+    runtime "mezz.jei:jei_${mc_version}:${jei_version}"
 }
 
 minecraft {
