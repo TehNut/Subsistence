@@ -1,20 +1,26 @@
-# Ignore Everything
-/*
-/*/
+# General use .gitignore for Minecraft modding.
 
-# Except These
-!/.gitignore
-!/src/
-!/gradle/
-!/gradlew
-!/gradlew.bat
-!/README
-!/LICENSE
-!/build.properties
-!/build.gradle
-!/.travis.yml
-!/build.sh
-!/gradle.properties
-!/version.txt
-=======
-!/build.gradle
+# Directories
+/.gradle/
+/build/
+/eclipse/
+/run/
+/out/
+/asm/
+/bin/
+/.idea/
+/.metadata/
+/.settings/
+/libs/
+
+# File Extensions
+*.psd
+*.iml
+*.ipr
+*.iws
+*.classpath
+*.project
+*.class
+
+# Specific files
+Thumbs.db

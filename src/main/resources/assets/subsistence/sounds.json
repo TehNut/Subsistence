@@ -2,9 +2,9 @@
   "oreCrumble": {
     "category": "neutral",
     "sounds": [
-      "oreCrumble01",
-      "oreCrumble02",
-      "oreCrumble03"
+      "subsistence:oreCrumble01",
+      "subsistence:oreCrumble02",
+      "subsistence:oreCrumble03"
     ]
   }
 }

@@ -1,76 +1,153 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+        maven { url "http://files.minecraftforge.net/maven" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
 
-apply plugin: 'forge'
+plugins {
+    id "net.minecraftforge.gradle.forge" version "2.0.2"
+    id 'com.matthewprenger.cursegradle' version '1.0.7'
+}
 
-version = project.mod_version
-group = mod_group
-archivesBaseName = mod_archive_name
+apply plugin: 'maven-publish'
+
+def build_number = 'CUSTOM'
+
+if (System.getenv('BUILD_NUMBER') != null)
+    build_number = System.getenv('BUILD_NUMBER')
+
+def username = 'SubsistenceDev'
+
+if (project.hasProperty('dev_username'))
+    username = "${dev_username}"
+
+group = package_group
+archivesBaseName = mod_name
+version = "${mc_version}-${mod_version}-${build_number}"
+
+repositories {
+
+}
+
+dependencies {
+
+}
 
 minecraft {
-    runDir = "run/assets"
-    version = minecraft_version + "-" + forge_version
-    replaceIn mod_info_path
-    replace "%MOD_VERSION%", mod_version
-    replace "%FORGE_VERSION%", forge_version
+    version = "${mc_version}-${forge_version}"
+    runDir = "run"
+
+    replace "@VERSION@", project.version
+    replaceIn "Subsistence.java"
+
+    clientRunArgs += "--username=${username}"
+
+    if (project.hasProperty('mappings_version'))
+        mappings = project.mappings_version
 }
 
-def final_display_version = hasProperty("display_version") ? display_version : minecraft_version
-version = "${final_display_version}-${mod_version}.B${System.getenv("BUILD_NUMBER") ?: 0}"
-
 processResources {
-    // this will ensure that this task is redone when the versions change.
-	inputs.property "mod_version", mod_version
-	inputs.property "minecraft_version", minecraft_version
-    
-    // replace stuff in mcmod.info, nothing else
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'mod_version':mod_version, 'minecraft_version':minecraft_version
+        include '**/*.info'
+        include '**/*.properties'
+
+        expand 'version': project.version, 'mcversion': project.minecraft.version
     }
-        
-    // copy everything else, thats not the mcmod.info
+
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }  
+        exclude '**/*.info'
+        exclude '**/*.properties'
+    }
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
 }
 
 jar {
-    manifest {
-        attributes 'FMLCorePlugin': 'subsistence.common.asm.SubsistenceCorePlugin'
-        attributes 'FMLCorePluginContainsFMLMod': 'true'
+    classifier = ''
+    manifest.mainAttributes(
+            "Built-By": System.getProperty('user.name'),
+            "Created-By": "${System.getProperty('java.vm.version')} + (${System.getProperty('java.vm.vendor')})",
+            "Implementation-Title": project.name,
+            "Implementation-Version": project.version,
+            "Built-On": "${mc_version}-${forge_version}"
+    )
+}
+
+tasks.withType(JavaCompile) { task ->
+    task.options.encoding = 'UTF-8'
+}
+
+publishing {
+    tasks.publish.dependsOn 'build'
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+            artifact sourceJar
+        }
     }
-
-//    classifier = 'universal'
+    repositories {
+        if (project.hasProperty('maven_repo')) {
+            maven { url maven_repo }
+        } else {
+            mavenLocal()
+        }
+    }
 }
 
-task devJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'dev'
+String getChangelogText() {
+    def changelogFile = new File('changelog.txt')
+    String str = ''
+    String separator = '---'
+    int lineCount = 0
+    boolean done = false
+    changelogFile.eachLine {
+        if (done || it == null) {
+            return
+        }
+        if (lineCount < 3) {
+            lineCount++
+            if (it.startsWith(separator)) {
+                return
+            }
+        }
+        if (!it.startsWith(separator)) {
+            str += "$it" + (lineCount < 3 ? ':\n\n' : '\n')
+            return
+        }
+        done = true // once we go past the first version block, parse no more
+    }
+    return str
 }
 
-artifacts {
-    archives devJar
+def curseRelations = {
+
 }
-apply plugin: 'idea'
-idea {
-    module {
-        inheritOutputDirs = true
+
+curseforge {
+    if (project.hasProperty('curse_key'))
+        apiKey = project.curse_key
+
+    project {
+        id = "${curse_id}"
+        changelog = getChangelogText()
+        releaseType = 'release'
+
+        relations curseRelations
+
+        addArtifact sourceJar
     }
 }

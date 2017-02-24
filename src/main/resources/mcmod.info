@@ -1,14 +1,15 @@
 [
-{
-        "modid": "subsistence",
-        "name": "Subsistence",
-        "version": "Alpha",
-        "description": "Maintaining or supporting oneself at a minimum level. That's what this mod does.",
-        "credits": "",
-        "url": "http://www.cyanidex.com/subsistence",
-        "authors": [ "CyanideX", "dmillerw", "Royalixor", "lclc98", "MattDahEpic" ],
-        "dependencies": [
-                "mod_MinecraftForge"
-        ]
-}
+  {
+    "modid": "subsistence",
+    "name": "Subsistence",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "description": "Maintaining or supporting oneself at a minimum level. That's what this mod does.",
+    "credits": "dmillerw, Royalixor, tterrag1098, lclc98, MattDahEpic",
+    "url": "http://www.cyanidex.com/subsistence",
+    "authors": [
+      "CyanideX",
+      "TehNut"
+    ]
+  }
 ]
