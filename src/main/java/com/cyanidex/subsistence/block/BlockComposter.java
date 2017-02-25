@@ -12,12 +12,12 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.Locale;
 
-public class BlockTable extends BlockMachine<BlockTable.TableType> {
+public class BlockComposter extends BlockMachine<BlockComposter.ComposterType> {
 
-    public BlockTable() {
-        super(Material.WOOD, TableType.class);
+    public BlockComposter() {
+        super(Material.WOOD, ComposterType.class);
 
-        setUnlocalizedName(Subsistence.ID + ".table");
+        setUnlocalizedName(Subsistence.ID + ".composter");
         setCreativeTab(Subsistence.TAB_SUB);
         setSoundType(SoundType.WOOD);
     }
@@ -34,19 +34,18 @@ public class BlockTable extends BlockMachine<BlockTable.TableType> {
 
     @Override
     public Material getMaterial(IBlockState state) {
-        return state.getValue(getProperty()) == TableType.WOOD ? super.getMaterial(state) : Material.ROCK;
+        return state.getValue(getProperty()) == ComposterType.WOOD ? super.getMaterial(state) : Material.ROCK;
     }
 
     @Override
     public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity) {
-        return state.getValue(getProperty()) == TableType.WOOD ? super.getSoundType(state, world, pos, entity) : SoundType.STONE;
+        return state.getValue(getProperty()) == ComposterType.WOOD ? super.getSoundType(state, world, pos, entity) : SoundType.STONE;
     }
 
-    public enum TableType implements IStringSerializable {
+    public enum ComposterType implements IStringSerializable {
         WOOD,
         STONE,
-        COBBLE,
-        NETHER,
+        NETHER
         ;
 
         @Override

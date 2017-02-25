@@ -1,10 +1,12 @@
 package com.cyanidex.subsistence;
 
 import com.cyanidex.subsistence.command.CommandSubsistence;
+import com.cyanidex.subsistence.core.ModObjects;
 import com.cyanidex.subsistence.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -26,7 +28,12 @@ public class Subsistence {
     public static final CreativeTabs TAB_SUB = new CreativeTabs("subsistence") {
         @Override
         public Item getTabIconItem() {
-            return Items.COOKED_BEEF;
+            return null;
+        }
+
+        @Override
+        public ItemStack getIconItemStack() {
+            return new ItemStack(ModObjects.COMPOSTER);
         }
     };
 

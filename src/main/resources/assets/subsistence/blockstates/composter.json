@@ -1,16 +1,15 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "subsistence:table_basic.obj",
+    "model": "subsistence:compost_wood.obj",
     "custom": { "flip-v": true },
     "transform" : "forge:default-block"
   },
   "variants": {
     "type": {
       "wood":  { },
-      "stone":  { "model": "subsistence:table_smashing_stone.obj" },
-      "cobble": { "model": "subsistence:table_smashing_cobble.obj" },
-      "nether": { "model": "subsistence:table_smashing_nether.obj" }
+      "stone":  { "model": "subsistence:compost_stone.obj" },
+      "nether": { "model": "subsistence:compost_stone_rind.obj" }
     },
     "facing": {
       "north": { },

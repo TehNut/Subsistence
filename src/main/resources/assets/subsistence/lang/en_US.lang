@@ -1,6 +1,17 @@
 # Creative Tab
 itemGroup.subsistence=Subsistence
 
+# Blocks
+tile.subsistence.table.wood.name=Table
+tile.subsistence.table.stone.name=Stone Smashing Table
+tile.subsistence.table.cobble.name=Cobblestone Smashing Table
+tile.subsistence.table.nether.name=Nether Smashing Table
+tile.subsistence.composter.wood.name=Wooden Compost Bin
+tile.subsistence.composter.stone.name=Stone Compost Bin
+tile.subsistence.composter.nether.name=Nether Compost Bin
+
+# Items
+
 # Command
 command.subsistence.reloadRecipes.time=Recipes reloaded in %s
 

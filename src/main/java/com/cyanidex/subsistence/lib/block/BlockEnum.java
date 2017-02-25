@@ -75,6 +75,10 @@ public class BlockEnum<E extends Enum<E> & IStringSerializable> extends Block {
         return new BlockStateContainer.Builder(this).add(property).build();
     }
 
+    public boolean hasCustomItem() {
+        return false;
+    }
+
     public E[] getTypes() {
         return types;
     }

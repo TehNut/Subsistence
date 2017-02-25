@@ -1,5 +1,6 @@
 package com.cyanidex.subsistence.lib.util;
 
+import com.cyanidex.subsistence.Subsistence;
 import com.cyanidex.subsistence.lib.block.BlockEnum;
 import com.cyanidex.subsistence.lib.block.ItemBlockEnum;
 import net.minecraft.block.Block;
@@ -24,16 +25,17 @@ public class RegistryHelper {
     @SuppressWarnings("unchecked")
     public static void register(Block block, String name) {
         GameRegistry.register(block.setRegistryName(name));
-        if (block instanceof BlockEnum)
+        if (block instanceof BlockEnum && !((BlockEnum) block).hasCustomItem())
             GameRegistry.register(new ItemBlockEnum((BlockEnum) block).setRegistryName(name));
 
-//        if (block instanceof IModeledItem)
-//            Foody.PROXY.handleInventoryModel(block);
+        if (block instanceof IModeledItem)
+            Subsistence.PROXY.handleInventoryModel(block);
     }
 
     public static void register(Item item, String name) {
         GameRegistry.register(item.setRegistryName(name));
-//        if (item instanceof IModeledItem)
-//            Foody.PROXY.handleInventoryModel(item);
+
+        if (item instanceof IModeledItem)
+            Subsistence.PROXY.handleInventoryModel(item);
     }
 }

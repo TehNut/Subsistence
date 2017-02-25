@@ -74,6 +74,7 @@ public class RecipeCompost implements IRecipeType<RecipeCompost> {
 
     public enum BinType {
         WOOD,
-        STONE,;
+        STONE,
+        ;
     }
 }
